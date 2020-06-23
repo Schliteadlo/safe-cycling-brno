@@ -1,0 +1,6 @@
+applications:
+  - name: safe-cycling-brno
+    random-route: true
+    memory: 128M
+    buildpacks:
+      - nodejs_buildpack

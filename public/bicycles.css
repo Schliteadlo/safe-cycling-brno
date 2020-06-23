@@ -1,0 +1,87 @@
+html {
+            background-color: #dedede;  
+		}
+        #mapid {
+            height: 70%; 
+        }
+        input[type="text"] {
+                background: #ffffff;
+                border: none;
+                border-bottom: 0.125rem solid  rgba(19, 19, 21, 0.6);
+                width: 150px;
+                height: 30px;
+                font-size: 1.0625rem;
+                padding-left: 0.875rem;
+                line-height: 147.6%; 
+        }
+
+        input[type="checkbox"] {
+                background-color: #ffffff;
+                
+        }
+
+        table {
+            height: 30px;
+		}
+        td {
+              height: 10px;
+              padding-top: 10px;
+              vertical-align: top;
+              padding-right: 10px;
+		}
+
+        .td-checkbox {
+            
+		}
+
+        button {
+            box-shadow: inset 0px 1px 0px 0px #5ba220;
+            background: linear-gradient(to bottom, #1f9404 5%, #177002 100%);
+            background-color: #1f9404;
+            border-radius: 6px;
+            border: 1px solid #68a00e;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 6px 24px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #528009;
+        }
+        ul {
+            float: center;  
+            position: outside;
+            padding-inline-start: 0px;
+		}
+
+        .autoComplete_highlighted {
+            opacity: 1;
+            color: #1f9404;
+            font-weight: 700;
+        }
+
+        .autoComplete_result {
+            box-shadow: 2px -2px 6px 0px #717171;  
+            color: #000000;
+		}
+
+        .autoComplete_result:last-child {
+            border-radius: 0;
+        }
+
+        .autoComplete_result:hover {
+            background-color: rgb(255, 255, 255);
+            border-left: 2px solid rgb(31, 148, 4);
+            border-right: 2px solid rgb(31, 148, 4);
+       
+        }
+
+        .span-checkbox {
+            padding-top: 4px;
+            font-size: 1.3rem;
+            display:block; 
+            text-align:center; 
+            margin:0 auto;
+        }

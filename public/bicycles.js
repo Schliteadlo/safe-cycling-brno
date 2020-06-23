@@ -1,142 +1,55 @@
-﻿
-<head>
- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-   crossorigin=""/>
-
- <!-- Make sure you put this AFTER Leaflet's CSS -->
- <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-   crossorigin=""></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">
 
 
-
-
-   <style>
-        html {
-            background-color: #dedede;  
-		}
-        #mapid {
-            height: 70%; 
-        }
-        input[type="text"] {
-                background: #ffffff;
-                border: none;
-                border-bottom: 0.125rem solid  rgba(19, 19, 21, 0.6);
-                width: 150px;
-                height: 30px;
-                font-size: 1.0625rem;
-                padding-left: 0.875rem;
-                line-height: 147.6%; 
-        }
-
-        input[type="checkbox"] {
-                background-color: #ffffff;
-                
-        }
-
-        table {
-            height: 30px;
-		}
-        td {
-              height: 10px;
-              padding-top: 10px;
-              vertical-align: top;
-              padding-right: 10px;
-		}
-
-        .td-checkbox {
-            
-		}
-
-        button {
-            box-shadow: inset 0px 1px 0px 0px #5ba220;
-            background: linear-gradient(to bottom, #1f9404 5%, #177002 100%);
-            background-color: #1f9404;
-            border-radius: 6px;
-            border: 1px solid #68a00e;
-            display: inline-block;
-            cursor: pointer;
-            color: #ffffff;
-            font-family: Arial;
-            font-size: 15px;
-            font-weight: bold;
-            padding: 6px 24px;
-            text-decoration: none;
-            text-shadow: 0px 1px 0px #528009;
-        }
-        ul {
-            float: center;  
-            position: outside;
-            padding-inline-start: 0px;
-		}
-
-        .autoComplete_highlighted {
-            opacity: 1;
-            color: #1f9404;
-            font-weight: 700;
-        }
-
-        .autoComplete_result {
-            box-shadow: 2px -2px 6px 0px #717171;  
-            color: #000000;
-		}
-
-        .autoComplete_result:last-child {
-            border-radius: 0;
-        }
-
-        .autoComplete_result:hover {
-            background-color: rgb(255, 255, 255);
-            border-left: 2px solid rgb(31, 148, 4);
-            border-right: 2px solid rgb(31, 148, 4);
-       
-        }
-
-        .span-checkbox {
-            padding-top: 4px;
-            font-size: 1.3rem;
-            display:block; 
-            text-align:center; 
-            margin:0 auto;
-        }
-
-   </style>
-</head>
-
-<body>
-  <div id="mapid"></div>
- <table>
-    <tr>
-    <td>
-        <input type="text" id="start" name="start"  placeholder="start"><br><br>
-    </td>
-    <td>
-        <input type="text" id="finish" name="finish" placeholder="destination"><br><br>
-    </td>
+$(document).ready(function() {
     
-    <td>
-        <button type="button" id="submitButton" value="Submit">Get route</button>
-    </td>
-    <td>
-        <span class="span-checkbox">Fastest route<input type="checkbox" id="safeRoute" onclick="hideRoutes()" checked></span>
-    </td>
-    <td>
-        <span class="span-checkbox">Safest route<input type="checkbox" id="fastRoute" onclick="hideRoutes()" checked></span>
-    </td>
-    <td>
-        <span class="span-checkbox">Custom route<input type="checkbox" id="customRoute" onclick="hideRoutes()" checked></span>
-    </td>
-    </tr>
-</table>
+    mymap = L.map('mapid').setView([49.17523, 16.5645], 13);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoibWlzb21rZSIsImEiOiJja2F6czNnMTAwMTRmMnJxamFhY3hiYnZyIn0.9w7pxiC9GskHgY1HiAfYBg'
+    }).addTo(mymap);
+    geojsonMarkerDeceased = {
+        radius: 11,
+        fillColor: "#fc1403",
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    };
+    geojsonMarkerSeverely = {
+        radius: 11,
+        fillColor: "#fc8c03",
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    };
+    geojsonMarkerLightly = {
+        radius: 11,
+        fillColor: "#e3fc03",
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    };
+    getRequest('https://kola-nehody-data.s3.eu-de.cloud-object-storage.appdomain.cloud/koloNehody%20(2).geojson', addMarkers);
+    new autoComplete(autoComp('#start'));
 
+    new autoComplete(autoComp('#finish'));
 
-<script>
+    document.getElementById('submitButton').addEventListener('click', function() {
+        var start =  document.getElementById('start').value;
+        var end =  document.getElementById('finish').value;
+        getRoute(start,end);
+        
+    });
 
-var mymap = L.map('mapid').setView([49.17523, 16.5645], 13);
+})
+
+var mymap;
 var orsApi = '5b3ce3597851110001cf62488d7bb08d74d541c98b2faadb6961d474';
 var jsonNehoody;
 var avoidPolygons = [];
@@ -149,9 +62,6 @@ var startMarker;
 var destinationMarker;
 var customRoute;
 
-new autoComplete(autoComp('#start'));
-
-new autoComplete(autoComp('#finish'));
 
 
 function autoComp(selector) {
@@ -200,14 +110,7 @@ function autoComp(selector) {
     }
 }
 
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox/streets-v11',
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: 'pk.eyJ1IjoibWlzb21rZSIsImEiOiJja2F6czNnMTAwMTRmMnJxamFhY3hiYnZyIn0.9w7pxiC9GskHgY1HiAfYBg'
-}).addTo(mymap);
+
    
  var startIcon = L.icon({
     iconUrl: 'https://api.iconify.design/bx:bxs-flag.svg?color=%2318ad51',
@@ -241,32 +144,11 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
         fillOpacity: 0.8
     };
 
-    var geojsonMarkerDeceased = {
-        radius: 11,
-        fillColor: "#fc1403",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
+    var geojsonMarkerDeceased
 
-    var geojsonMarkerSeverely = {
-        radius: 11,
-        fillColor: "#fc8c03",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
+    var geojsonMarkerSeverely
 
-    var geojsonMarkerLightly = {
-        radius: 11,
-        fillColor: "#e3fc03",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
+    var geojsonMarkerLightly 
     
     var fastRouteStyle = {
     "color": "#db5116",
@@ -285,8 +167,6 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     "weight": 5,
     "opacity": 0.9
     };
-
-    getRequest('https://kola-nehody-data.s3.eu-de.cloud-object-storage.appdomain.cloud/koloNehody%20(2).geojson', addMarkers);
     getRequest('https://kola-nehody-data.s3.eu-de.cloud-object-storage.appdomain.cloud/ulice.txt', 
         function(response) {
             var jsonObj = JSON.parse(response);
@@ -372,16 +252,19 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
         xhr.onload = function() {
         if (xhr.status == 200) {
            // obj.Icon = startIcon;
+           
            successCallback(xhr.responseText);
              
 		} else {
             console.log('rip');
             }
         }
+       
         xhr.send();
     }
 
     function postRequest(routeType, successCallback) {
+        
         let request = new XMLHttpRequest();
         
         request.open('POST', "https://api.openrouteservice.org/v2/directions/cycling-regular/geojson");
@@ -428,16 +311,12 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 		} else {
             body = '{"coordinates":[' + startCoor + ',' + endCoor + ']}}'; 
 		}
+        
         request.send(body);
     }
     
 
-    document.getElementById('submitButton').addEventListener('click', function() {
-        var start =  document.getElementById('start').value;
-        var end =  document.getElementById('finish').value;
-        getRoute(start,end);
-        
-    });
+    
     function getRoute(start, end) {
        
         var addressBaseLink = 'http://open.mapquestapi.com/geocoding/v1/address?key=14x4dkmGCqu2XdZVJmpp7ffimBpDLdVw&location=';
@@ -462,8 +341,9 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
                         })
                         postRequest('fast', function(route) {
+                            ;
                             var jsonObj = JSON.parse(route);
-                            
+                           
                             if (typeof fastRoute !== 'undefined') {
                                 fastRoute.remove();
 							}
@@ -554,11 +434,3 @@ function hideRoutes() {
 }
     
 
-    
-</script>
-
-
-
-
-
-</body>

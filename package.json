@@ -1,0 +1,27 @@
+{
+  "name": "safe-cycling-brno",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "cfenv": "^1.2.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Schliteadlo/safe-cycling-brno.git"
+  },
+  "author": "Michal Merjavy, Simon Sotak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Schliteadlo/safe-cycling-brno/issues"
+  },
+  "homepage": "https://github.com/Schliteadlo/safe-cycling-brno#readme"
+}
